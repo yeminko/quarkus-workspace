@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.RestQuery;
 
 import com.plandoer.reservation.Reservation;
 import com.plandoer.reservation.ReservationsRepository;
 import com.plandoer.reservation.inventory.Car;
 import com.plandoer.reservation.inventory.InventoryClient;
+import com.plandoer.reservation.rental.RentalClient;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -25,10 +27,13 @@ import jakarta.ws.rs.core.MediaType;
 public class ReservationResource {
     private final ReservationsRepository reservationsRepository;
     private final InventoryClient inventoryClient;
+    private final RentalClient rentalClient;
 
-    public ReservationResource(ReservationsRepository reservations, InventoryClient inventoryClient) {
+    public ReservationResource(ReservationsRepository reservations, InventoryClient inventoryClient,
+            @RestClient RentalClient rentalClient) {
         this.reservationsRepository = reservations;
         this.inventoryClient = inventoryClient;
+        this.rentalClient = rentalClient;
     }
 
     @GET
@@ -50,10 +55,13 @@ public class ReservationResource {
         }
         return carsById.values();
     }
-    
+
     @Consumes(MediaType.APPLICATION_JSON)
     @POST
     public Reservation make(Reservation reservation) {
-        return reservationsRepository.save(reservation);
+        Reservation result = reservationsRepository.save(reservation);
+        String userId = "x";
+
+        return result;
     }
 }
