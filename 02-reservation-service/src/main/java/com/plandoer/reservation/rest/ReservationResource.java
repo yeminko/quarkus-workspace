@@ -13,8 +13,10 @@ import com.plandoer.reservation.Reservation;
 import com.plandoer.reservation.ReservationsRepository;
 import com.plandoer.reservation.inventory.Car;
 import com.plandoer.reservation.inventory.InventoryClient;
+import com.plandoer.reservation.rental.Rental;
 import com.plandoer.reservation.rental.RentalClient;
 
+import io.quarkus.logging.Log;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -62,6 +64,10 @@ public class ReservationResource {
         Reservation result = reservationsRepository.save(reservation);
         String userId = "x";
 
+        if (reservation.startDay.equals(LocalDate.now())) {
+            Rental rental = rentalClient.start(userId, result.id);
+            Log.info("Successfully started rental " + rental);
+        }
         return result;
     }
 }
