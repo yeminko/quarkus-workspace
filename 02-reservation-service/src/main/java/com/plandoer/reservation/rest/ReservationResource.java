@@ -12,11 +12,13 @@ import org.jboss.resteasy.reactive.RestQuery;
 import com.plandoer.reservation.Reservation;
 import com.plandoer.reservation.ReservationsRepository;
 import com.plandoer.reservation.inventory.Car;
+import com.plandoer.reservation.inventory.GraphQLInventoryClient;
 import com.plandoer.reservation.inventory.InventoryClient;
 import com.plandoer.reservation.rental.Rental;
 import com.plandoer.reservation.rental.RentalClient;
 
 import io.quarkus.logging.Log;
+import io.smallrye.graphql.client.GraphQLClient;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -31,7 +33,8 @@ public class ReservationResource {
     private final InventoryClient inventoryClient;
     private final RentalClient rentalClient;
 
-    public ReservationResource(ReservationsRepository reservations, InventoryClient inventoryClient,
+    public ReservationResource(ReservationsRepository reservations,
+            @GraphQLClient("inventory") GraphQLInventoryClient inventoryClient,
             @RestClient RentalClient rentalClient) {
         this.reservationsRepository = reservations;
         this.inventoryClient = inventoryClient;
