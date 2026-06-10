@@ -1,8 +1,19 @@
 package com.plandoer.inventory.grpc;
 
-import org.acme.inventory.model.InventoryService;
+
+import java.util.Optional;
+
+import com.plandoer.inventory.database.CarInventory;
+import com.plandoer.inventory.model.Car;
+import com.plandoer.inventory.model.CarResponse;
+import com.plandoer.inventory.model.InsertCarRequest;
+import com.plandoer.inventory.model.InventoryService;
+import com.plandoer.inventory.model.RemoveCarRequest;
 
 import io.quarkus.grpc.GrpcService;
+import io.quarkus.logging.Log;
+import io.smallrye.mutiny.Uni;
+import jakarta.inject.Inject;
 
 @GrpcService
 public class GrpcInventoryService implements InventoryService {
